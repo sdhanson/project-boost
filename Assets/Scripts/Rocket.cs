@@ -7,7 +7,6 @@ public class Rocket : MonoBehaviour {
 
     Rigidbody rigidBody;
     AudioSource thrustAudio;
-    bool thrustAudioOn = false;
 
 	// Use this for initialization
 	void Start () {
@@ -19,43 +18,52 @@ public class Rocket : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        ProcessInput();
+
+        Thrust();
+        Rotate();
 		
 	}
 
-    private void ProcessInput()
+    private void Thrust()
     {
-        
-        if(Input.GetKey(KeyCode.Space)) 
+        if (Input.GetKey(KeyCode.Space))
         {
             print("Thrusting");
             rigidBody.AddRelativeForce(Vector3.up);
 
-            if(!thrustAudioOn) 
+            if (!thrustAudio.isPlaying)
             {
                 thrustAudio.Play();
-                thrustAudioOn = true;    
             }
 
         }
-
-        if(thrustAudioOn && !Input.GetKey(KeyCode.Space)) 
+        else if (thrustAudio.isPlaying)
         {
             thrustAudio.Stop();
-            thrustAudioOn = false; 
         }
 
-        if(Input.GetKey(KeyCode.A)) 
+    }
+
+    private void Rotate()
+    {
+
+        rigidBody.freezeRotation = true; // take manual control of rotation
+        
+        if (Input.GetKey(KeyCode.A))
         {
             print("Rotating left");
             transform.Rotate(Vector3.forward);
-        } 
+        }
 
-        else if (Input.GetKey(KeyCode.D)) 
+        else if (Input.GetKey(KeyCode.D))
         {
             print("Rotating right");
             transform.Rotate(-Vector3.forward);
         }
 
+        rigidBody.freezeRotation = false; // resume physics control
+
     }
+
+
 }

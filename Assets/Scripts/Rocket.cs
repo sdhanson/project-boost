@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour {
 
+    [SerializeField] float rcsThrust = 100f;
+    [SerializeField] float shipThrust = 100f;
+
     Rigidbody rigidBody;
     AudioSource thrustAudio;
 
@@ -16,20 +19,40 @@ public class Rocket : MonoBehaviour {
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	// FixedUpdate is called every 0.02 sec
+	void FixedUpdate () {
 
         Thrust();
         Rotate();
 		
 	}
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch(collision.gameObject.tag) {
+            case "Friendly":
+                // do nothing
+                print("OK");
+                break;
+            case "Fuel":
+                print("Fuel");
+                // do nothing
+                break;
+            default:
+                print("Dead");
+                // do nothing
+                break;
+        }
+    }
+
     private void Thrust()
     {
+        float thrustThisFrame = shipThrust * Time.deltaTime;
+
         if (Input.GetKey(KeyCode.Space))
         {
             print("Thrusting");
-            rigidBody.AddRelativeForce(Vector3.up);
+            rigidBody.AddRelativeForce(Vector3.up * thrustThisFrame);
 
             if (!thrustAudio.isPlaying)
             {
@@ -48,17 +71,19 @@ public class Rocket : MonoBehaviour {
     {
 
         rigidBody.freezeRotation = true; // take manual control of rotation
+
+        float rotationThisFrame = rcsThrust * Time.deltaTime;
         
         if (Input.GetKey(KeyCode.A))
         {
             print("Rotating left");
-            transform.Rotate(Vector3.forward);
+            transform.Rotate(Vector3.forward * rotationThisFrame);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
             print("Rotating right");
-            transform.Rotate(-Vector3.forward);
+            transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
 
         rigidBody.freezeRotation = false; // resume physics control

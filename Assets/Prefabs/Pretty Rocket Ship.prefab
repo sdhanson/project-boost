@@ -264,7 +264,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1626028009320270}
   m_LocalRotation: {x: 0.12278779, y: 0.6963643, z: -0.12278779, w: 0.6963643}
-  m_LocalPosition: {x: 0.26, y: -1.18, z: 0.25}
+  m_LocalPosition: {x: 0.65, y: -0.55, z: 0.25}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4750235187530344}
@@ -347,7 +347,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1954710340169020}
   m_LocalRotation: {x: 0.12278779, y: -0.6963643, z: 0.12278779, w: 0.6963643}
-  m_LocalPosition: {x: 0.05, y: -1.24, z: -0.16}
+  m_LocalPosition: {x: 0.25999933, y: -0.57000005, z: -0.16000019}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4366935454278302}
@@ -391,8 +391,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1770226998744522}
   m_LocalRotation: {x: -0.00019304846, y: 0.13052602, z: -0.0014663478, w: 0.9914438}
-  m_LocalPosition: {x: -0.116980374, y: 2.8578162, z: 0.031870373}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -39.68, y: 1.87, z: 0.06}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 4103817786830988}
   - {fileID: 4543773466284426}
@@ -420,8 +420,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1574499992039706}
   m_LocalRotation: {x: -0, y: -0.09219741, z: -0, w: 0.9957408}
-  m_LocalPosition: {x: 0.09, y: 0.16, z: 0.13}
-  m_LocalScale: {x: 0.8547765, y: 2.8389683, z: 1}
+  m_LocalPosition: {x: 0.39999932, y: 0.45000005, z: 0.1299998}
+  m_LocalScale: {x: 0.91760117, y: 2.2012413, z: 0.8657912}
   m_Children: []
   m_Father: {fileID: 4740659609259368}
   m_RootOrder: 2
@@ -910,9 +910,9 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1770226998744522}
   serializedVersion: 2
-  m_Mass: 0.06
-  m_Drag: 0.2
-  m_AngularDrag: 0.05
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -1021,6 +1021,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff2f472a782de40b895a2d8bade694bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rcsThrust: 300
+  shipThrust: 1500
 --- !u!135 &135042326793225876
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -9,8 +9,17 @@ public class Rocket : MonoBehaviour {
     [SerializeField] float rcsThrust = 100f;
     [SerializeField] float shipThrust = 100f;
 
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem successParticles;
+    [SerializeField] ParticleSystem deathParticles; 
+
     Rigidbody rigidBody;
     AudioSource thrustAudio;
+
+    // made a type State that can either be alive, dying, or transcending
+    enum State { Alive, Dying, Transcending };
+    // create a variable of this type and give it a value
+    State state = State.Alive;
 
 	// Use this for initialization
 	void Start () {
@@ -23,28 +32,63 @@ public class Rocket : MonoBehaviour {
 	// FixedUpdate is called every 0.02 sec
 	void FixedUpdate () {
 
-        Thrust();
-        Rotate();
+        if(state == State.Alive) {
+
+            Thrust();
+            Rotate();
+            
+        }
+
 		
 	}
 
     private void OnCollisionEnter(Collision collision)
     {
+        
+        if(state != State.Alive) { return; }
+
         switch(collision.gameObject.tag) {
             case "Friendly":
                 // do nothing
-                print("OK");
                 break;
             case "Finish":
-                SceneManager.LoadScene(1);
-                // do nothing
+                StartSuccessSequence();
                 break;
             default:
-                print("Dead");
-                SceneManager.LoadScene(0);
-                // do nothing
+                StartDeathSequence();
                 break;
         }
+    }
+
+    private void StartSuccessSequence() {
+        
+        state = State.Transcending;
+        // give method name as string, and 1 second delay
+
+        // auto stop when scene loads!
+        successParticles.Play();
+        Invoke("LoadNextScene", 1f);
+
+    }
+
+    private void StartDeathSequence()
+    {
+        
+        state = State.Dying;
+        deathParticles.Play();
+        Invoke("LoadFirstLevel", 1f);
+
+    }
+
+
+    private void LoadNextScene()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    private void LoadFirstLevel()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void Thrust()
@@ -53,7 +97,6 @@ public class Rocket : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Space))
         {
-            print("Thrusting");
             rigidBody.AddRelativeForce(Vector3.up * thrustThisFrame);
 
             if (!thrustAudio.isPlaying)
@@ -61,10 +104,13 @@ public class Rocket : MonoBehaviour {
                 thrustAudio.Play();
             }
 
+            mainEngineParticles.Play();
+
         }
         else if (thrustAudio.isPlaying)
         {
             thrustAudio.Stop();
+            mainEngineParticles.Stop();
         }
 
     }
@@ -78,13 +124,11 @@ public class Rocket : MonoBehaviour {
         
         if (Input.GetKey(KeyCode.A))
         {
-            print("Rotating left");
             transform.Rotate(Vector3.forward * rotationThisFrame);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            print("Rotating right");
             transform.Rotate(-Vector3.forward * rotationThisFrame);
         }
 
